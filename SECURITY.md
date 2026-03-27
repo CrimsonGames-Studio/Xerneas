@@ -1,6 +1,6 @@
 # Security Policy
 
-## Reporting aVulnerability
+## Reporting a Vulnerability
 If you find a security issue, please report it peivately.
 
 ## Supported Versions
