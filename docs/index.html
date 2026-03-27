@@ -2,22 +2,48 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>Xerneas Test</title>
+  <title>Xerneas Alpha</title>
+  <style>
+    body { background:#2b2b2b; color:#fff; font-family:sans-serif; padding:20px; }
+    #chat { border:1px solid #555; padding:10px; height:300px; overflow-y:auto; margin-bottom:10px; background:#1e1e1e; }
+    #input { width:calc(100% - 90px); padding:10px; }
+    #run { width:70px; padding:10px; margin-left:10px; background:red; color:#fff; border:none; cursor:pointer; }
+    .thinking { color:orange; }
+    .message { margin-bottom:10px; }
+  </style>
 </head>
 <body>
 
+<div id="chat"></div>
 <input id="input" placeholder="z.B. html red">
 <button id="run">Run</button>
-
-<pre id="output"></pre>
 
 <script type="module">
 import { generate } from "../src/core/controller.js";
 
-document.getElementById("run").onclick = async () => {
-  const input = document.getElementById("input").value;
-  const result = await generate(input);
-  document.getElementById("output").textContent = result;
+const chat = document.getElementById("chat");
+const inputField = document.getElementById("input");
+const runButton = document.getElementById("run");
+
+function appendMessage(text, cls="message") {
+  const div = document.createElement("div");
+  div.className = cls;
+  div.textContent = text;
+  chat.appendChild(div);
+  chat.scrollTop = chat.scrollHeight;
+}
+
+runButton.onclick = async () => {
+  const userInput = inputField.value;
+  if (!userInput) return;
+
+  appendMessage("You: " + userInput);
+  appendMessage("Xerneas: thinking • ich mache dies ...", "thinking");
+
+  const thinkingDiv = chat.querySelector(".thinking");
+  const result = await generate(userInput);
+
+  thinkingDiv.textContent = "Xerneas: " + result;
 };
 </script>
 
